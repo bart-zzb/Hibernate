@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <!-- 1配置类和表对应
+    <!-- 1.配置类和表对应
          class标签
          name属性：实体类全路径
          table属性：数据库表名称
@@ -23,7 +23,7 @@
             <generator class="native"></generator>
         </id>
 
-        <!-- 配置其他属性和表字段对应
+        <!-- 3.配置其他属性和表字段对应
              name属性：实体类属性名称
              column属性：生成表字段名称-->
         <property name="username" column="username"></property>
