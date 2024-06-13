@@ -9,7 +9,7 @@
     <session-factory>
         <!-- 1.配置数据库信息 -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hibernate_module1</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hibernate_test</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">root</property>
 
@@ -28,6 +28,6 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
         <!-- 3.把映射文件放到核心配置文件中 必须的-->
-        <mapping resource="org/example/entity/User.hbm.xml"/>
+        <mapping resource="User.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
