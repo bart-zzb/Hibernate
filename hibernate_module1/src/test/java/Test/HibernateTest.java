@@ -1,6 +1,7 @@
 package Test;
 
 import org.example.entity.User;
+import org.example.utils.HibernateUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -14,12 +15,15 @@ public class HibernateTest {
         //1.加载hibernate核心配置文件
         // 到src下面找到名称是hibernate.cfg.xml
         //在hibernate里面封装对象
-        Configuration cfg = new Configuration().configure();
+//        Configuration cfg = new Configuration().configure();
 
         //2.创建SessionFactory对象
         // 读取hibernate核心配置文件内容，创建sessionFactory
         // 在过程中，根据映射关系，在配置数据库里面把表创建出来
-        SessionFactory sessionFactory = cfg.buildSessionFactory();
+//        SessionFactory sessionFactory = cfg.buildSessionFactory();
+
+        //使用HibernateUtils工具类，让其一个项目只创建一次即可，节省资源
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 
         //3.使用SessionFactory创建session对象
         // 类似于JDBC连接
@@ -30,9 +34,9 @@ public class HibernateTest {
 
         //5.具体的CRUD操作
         User user = new User();
-        user.setUsername("Bart");
+        user.setUsername("Jon");
         user.setAddress("HongKong");
-        user.setPassword("123456");
+        user.setPassword("789");
        //调用session的方法实现添加
         session.save(user);
 
