@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>hibernate_module1</module>
+        <module>hibernate_module2</module>
     </modules>
 
     <properties>
