@@ -74,6 +74,7 @@ public class HibernateTest {
         session.close();
         sessionFactory.close();
     }
+
     //修改数据
     @Test
     public void testUpdate(){
@@ -94,6 +95,38 @@ public class HibernateTest {
         user.setUsername("TonyChan");
         //调用session.update的方法
         session.update(user);
+
+        //5.提交事务
+        transaction.commit();
+
+        //6.关闭
+        session.close();
+        sessionFactory.close();
+    }
+
+    //删除数据
+    @Test
+    public void testDelete(){
+        //1.调用工具类得到sessionFactory
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+
+        //2.获取session
+        Session session = sessionFactory.openSession();
+
+        //3.开启事务
+        Transaction transaction = session.beginTransaction();
+
+        //4.删除操作
+        //第一种
+        User user = session.get(User.class, 1);
+        //调用session.delete的方法
+        session.delete(user);
+
+        //第二种
+//        User user = new User();
+//        user.setUid(1);
+//        session.delete(user);
+
 
         //5.提交事务
         transaction.commit();
