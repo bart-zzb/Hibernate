@@ -74,4 +74,32 @@ public class HibernateTest {
         session.close();
         sessionFactory.close();
     }
+    //修改数据
+    @Test
+    public void testUpdate(){
+        //1.调用工具类得到sessionFactory
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+
+        //2.获取session
+        Session session = sessionFactory.openSession();
+
+        //3.开启事务
+        Transaction transaction = session.beginTransaction();
+
+        //4.根据id查询
+        //调用session里面的get的方法
+        //第一个参数：实体类的class
+        //第二个参数：id值
+        User user = session.get(User.class, 1);
+        user.setUsername("TonyChan");
+        //调用session.update的方法
+        session.update(user);
+
+        //5.提交事务
+        transaction.commit();
+
+        //6.关闭
+        session.close();
+        sessionFactory.close();
+    }
 }
