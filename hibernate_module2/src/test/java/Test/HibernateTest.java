@@ -135,4 +135,34 @@ public class HibernateTest {
         session.close();
         sessionFactory.close();
     }
+
+    //新增或者修改数据
+    @Test
+    public void testSaveOrUpdate(){
+        //1.调用工具类得到sessionFactory
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+
+        //2.获取session
+        Session session = sessionFactory.openSession();
+
+        //3.开启事务
+        Transaction transaction = session.beginTransaction();
+
+        //4.新增或者修改操作（最核心区分就是看有没有设置uid）
+        User user = new User();
+        user.setUsername("Stephen");
+        //新增
+        session.saveOrUpdate(user);
+
+        //修改
+//        user.setUid(1);
+//        session.saveOrUpdate(user);
+
+        //5.提交事务
+        transaction.commit();
+
+        //6.关闭
+        session.close();
+        sessionFactory.close();
+    }
 }
