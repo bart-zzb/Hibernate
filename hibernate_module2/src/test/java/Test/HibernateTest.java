@@ -180,13 +180,13 @@ public class HibernateTest {
 
         //4.根据id查询第一次，控制台有查询sql输出
         User user1 = session.get(User.class, 2);
-        //根据id查询第二次，控制台没有输出
+        //5.根据id查询第二次，控制台没有输出
         User user2 = session.get(User.class, 2);
 
-        //5.提交事务
+        //6.提交事务
         transaction.commit();
 
-        //6.关闭
+        //7.关闭
         session.close();
         sessionFactory.close();
     }
