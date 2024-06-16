@@ -33,3 +33,13 @@ cfg.configure();
 5. 注意事项
 - 实体类属性建议不使用基本数据类型，使用其包装类型，因为包装类可以使用null
 - hibernate 主键两大常用变量值：native和uuid
+
+6. Hibernate缓存
+- 一级缓存
+  - hibernate的一级缓存默认打开的
+  - hibernate的一级缓存使用范围，就是session范围，从session创建到session关闭范围、
+  - hibernate的一级缓存中，储存数据必须 持久态数据
+- 二级缓存
+  - 目前已经不使用了，替代技术Redis
+  - 二级缓存默认不是打开的，需要配置
+  - 二级缓存适用范围，是sessionFactory范围

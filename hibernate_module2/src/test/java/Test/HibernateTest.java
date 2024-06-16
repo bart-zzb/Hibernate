@@ -165,4 +165,30 @@ public class HibernateTest {
         session.close();
         sessionFactory.close();
     }
+
+    //测试Hibernate一级缓存
+    @Test
+    public void testCahche(){
+        //1.调用工具类得到sessionFactory
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+
+        //2.获取session
+        Session session = sessionFactory.openSession();
+
+        //3.开启事务
+        Transaction transaction = session.beginTransaction();
+
+        //4.根据id查询第一次，控制台有查询sql输出
+        User user1 = session.get(User.class, 2);
+        //根据id查询第二次，控制台没有输出
+        User user2 = session.get(User.class, 2);
+
+        //5.提交事务
+        transaction.commit();
+
+        //6.关闭
+        session.close();
+        sessionFactory.close();
+    }
+
 }
