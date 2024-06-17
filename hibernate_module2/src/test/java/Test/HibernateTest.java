@@ -191,4 +191,33 @@ public class HibernateTest {
         sessionFactory.close();
     }
 
+    //一级缓存特性，持久态的对象会自动更新数据库
+    @Test
+    public void testAutoUpdate(){
+        //1.调用工具类得到sessionFactory
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+
+        //2.获取session
+        Session session = sessionFactory.openSession();
+
+        //3.开启事务
+        Transaction transaction = session.beginTransaction();
+
+        //4.根据id查询，生成一级缓存和快照区（副本）
+        User user = session.get(User.class, 2);
+
+        //5.修改user，同时修改hibernate的一级缓存的对象，但不会更新到快照区
+        user.setUsername("Stephen Zhow");
+
+        //6.不用写提交
+        //session.update(user);
+
+        //7.提交事务，会比较一级缓存中对象与快照区中是否一致，不一致，就把一级缓存更新到数据库，控制台有update的sql
+        transaction.commit();
+
+        //8.关闭
+        session.close();
+        sessionFactory.close();
+    }
+
 }
