@@ -2,6 +2,7 @@ package Test;
 
 import org.example.entity.User;
 import org.example.utils.HibernateUtils;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,7 +12,7 @@ import org.junit.Test;
 public class HibernateTest {
 
     @Test
-    public void testAdd(){
+    public void testAdd() {
         //1.加载hibernate核心配置文件
         // 到src下面找到名称是hibernate.cfg.xml
         //在hibernate里面封装对象
@@ -37,7 +38,7 @@ public class HibernateTest {
         user.setUsername("Stephen");
         user.setAddress("HongKong");
         user.setPassword("123456");
-       //调用session的方法实现添加
+        //调用session的方法实现添加
         session.save(user);
 
         //6.提交事务
@@ -50,7 +51,7 @@ public class HibernateTest {
 
     //根据id查询数据
     @Test
-    public void testGet(){
+    public void testGet() {
         //1.调用工具类得到sessionFactory
         SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 
@@ -77,7 +78,7 @@ public class HibernateTest {
 
     //修改数据
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //1.调用工具类得到sessionFactory
         SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 
@@ -106,7 +107,7 @@ public class HibernateTest {
 
     //删除数据
     @Test
-    public void testDelete(){
+    public void testDelete() {
         //1.调用工具类得到sessionFactory
         SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 
@@ -138,7 +139,7 @@ public class HibernateTest {
 
     //新增或者修改数据
     @Test
-    public void testSaveOrUpdate(){
+    public void testSaveOrUpdate() {
         //1.调用工具类得到sessionFactory
         SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 
@@ -168,7 +169,7 @@ public class HibernateTest {
 
     //测试Hibernate一级缓存
     @Test
-    public void testCahche(){
+    public void testCahche() {
         //1.调用工具类得到sessionFactory
         SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 
@@ -193,7 +194,7 @@ public class HibernateTest {
 
     //一级缓存特性，持久态的对象会自动更新数据库
     @Test
-    public void testAutoUpdate(){
+    public void testAutoUpdate() {
         //1.调用工具类得到sessionFactory
         SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 
@@ -220,4 +221,40 @@ public class HibernateTest {
         sessionFactory.close();
     }
 
+    //事务规范代码,try catch (rollback()) finally
+    @Test
+    public void testTx() {
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            //1.调用工具类得到sessionFactory
+             sessionFactory = HibernateUtils.getSessionFactory();
+
+            //2.获取session
+             session = sessionFactory.openSession();
+
+            //3.开启事务
+             transaction = session.beginTransaction();
+
+            //4.根据id查询，生成一级缓存和快照区（副本）
+            User user = session.get(User.class, 2);
+
+            //5.修改user，同时修改hibernate的一级缓存的对象，但不会更新到快照区
+            user.setUsername("Stephen Zhow");
+
+            //6.不用写提交
+            //session.update(user);
+
+            //7.提交事务，会比较一级缓存中对象与快照区中是否一致，不一致，就把一级缓存更新到数据库，控制台有update的sql
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            //8.关闭
+            session.close();
+            sessionFactory.close();
+        }
+    }
 }
