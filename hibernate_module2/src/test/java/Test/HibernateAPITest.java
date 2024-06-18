@@ -2,10 +2,7 @@ package Test;
 
 import org.example.entity.User;
 import org.example.utils.HibernateUtils;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.junit.Test;
 
 import java.util.List;
@@ -27,6 +24,33 @@ public class HibernateAPITest {
             //from + 实体类对象
             Query query = session.createQuery("from User");
             List<User> list = query.list();
+            for (User user : list) {
+                System.out.println(user);
+            }
+
+            tx.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+//            session.close();
+            sessionFactory.close();
+        }
+    }
+
+    //使用Criteria对象
+    @Test
+    public void testCriteria(){
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction tx = null;
+        try{
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = HibernateUtils.getSession();
+            tx = session.beginTransaction();
+
+            //创建Criteria对象
+            Criteria criteria = session.createCriteria(User.class);
+            List<User> list = criteria.list();
             for (User user : list) {
                 System.out.println(user);
             }
