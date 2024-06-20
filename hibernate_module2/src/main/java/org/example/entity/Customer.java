@@ -1,11 +1,14 @@
 package org.example.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Setter
+@Getter
 public class Customer {
 	//客户id
 	private Integer cid;

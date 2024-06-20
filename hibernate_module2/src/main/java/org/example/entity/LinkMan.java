@@ -1,8 +1,11 @@
 package org.example.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class LinkMan {
 	private Integer lkm_id; // 联系人编号(主键)
 	private String lkm_name;// 联系人姓名
