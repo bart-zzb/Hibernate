@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!--角色与权限为多对多关系-->
+<hibernate-mapping>
+    <class name="org.example.entity.Role" table="t_role">
+        <id name="id" column="id">
+            <generator class="native"></generator>
+        </id>
+        <property name="name" column="name"></property>
+
+        <set name="permissions" table="t_role_permission">
+            <!-- 一对多建表，有外键
+                hibernate机制：双向维护外键，在一和多那一方都配置外键
+                column属性值：外键名称
+             -->
+            <key column="permission_id"></key>
+            <many-to-many class="org.example.entity.Role" column="role_id"/>
+        </set>
+    </class>
+</hibernate-mapping>

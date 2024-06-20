@@ -34,5 +34,7 @@
         <mapping resource="User.hbm.xml"/>
         <mapping resource="Customer.hbm.xml"/>
         <mapping resource="LinkMan.hbm.xml"/>
+        <mapping resource="Permission.hbm.xml"/>
+        <mapping resource="Role.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
