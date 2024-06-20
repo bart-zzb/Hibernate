@@ -12,6 +12,52 @@ import org.junit.Test;
 
 public class HibernateOnetoMany {
 
+	//演示一对多级联保存
+	@Test
+	public void testAddDemo2() {
+		SessionFactory sessionFactory = null;
+		Session session = null;
+		Transaction tx = null;
+		try {
+			//得到sessionFactory
+			sessionFactory = HibernateUtils.getSessionFactory();
+			//得到session
+			session = sessionFactory.openSession();
+			//开启事务
+			tx = session.beginTransaction();
+
+			// 添加一个客户，为这个客户添加一个联系人
+			//1 创建客户和联系人对象
+			Customer customer = new Customer();
+			customer.setCustName("百度");
+			customer.setCustLevel("普通客户");
+			customer.setCustSource("网络");
+			customer.setCustPhone("110");
+			customer.setCustMobile("999");
+
+			LinkMan linkman = new LinkMan();
+			linkman.setLkm_name("小宏");
+			linkman.setLkm_gender("男");
+			linkman.setLkm_phone("911");
+
+			//2 把联系人放到客户里面
+			//需要在customer.hbm.xml配置cascade="save-update"
+			customer.getSetLinkMan().add(linkman);
+
+			//3 保存客户
+			session.save(customer);
+
+			//提交事务
+			tx.commit();
+
+		}catch(Exception e) {
+			tx.rollback();
+		}finally {
+			session.close();
+			//sessionFactory不需要关闭
+			sessionFactory.close();
+		}
+	}
 
 	//演示一对多级联保存
 	@Test
