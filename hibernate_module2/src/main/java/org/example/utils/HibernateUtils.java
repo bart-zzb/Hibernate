@@ -23,4 +23,8 @@ public class HibernateUtils {
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
+
+    public static void main(String[] args) {
+
+    }
 }
