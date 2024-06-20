@@ -12,6 +12,37 @@ import org.junit.Test;
 
 public class HibernateOnetoMany {
 
+	//演示一对多级联删除
+	@Test
+	public void testDeleteDemo() {
+		SessionFactory sessionFactory = null;
+		Session session = null;
+		Transaction tx = null;
+		try {
+			//得到sessionFactory
+			sessionFactory = HibernateUtils.getSessionFactory();
+			//得到session
+			session = sessionFactory.openSession();
+			//开启事务
+			tx = session.beginTransaction();
+
+			// 1 根据id查询客户对象
+			Customer customer = session.get(Customer.class, 1);
+			//2 调用方法删除
+			session.delete(customer);
+
+			//提交事务
+			tx.commit();
+
+		}catch(Exception e) {
+			tx.rollback();
+		}finally {
+			session.close();
+			//sessionFactory不需要关闭
+			sessionFactory.close();
+		}
+	}
+
 	//演示一对多级联保存
 	@Test
 	public void testAddDemo2() {
