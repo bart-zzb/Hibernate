@@ -25,6 +25,7 @@
 			     
 			 inverse属性默认值：false不放弃关系维护
 			                true表示放弃关系维护
+			                默认在一对多中，一的那一方放弃外键维护，让数据库update仅在多那一方更新，提高性能
 		-->
 		<!-- 配置简化写法(save-upate：新增，delete：删除)	-->
 		<!-- <set name="setLinkMan" cascade="save-update,delete">-->

@@ -11,6 +11,40 @@ import org.junit.Test;
 
 
 public class HibernateOnetoMany {
+	//演示一对多修改
+	@Test
+	public void testUpdate() {
+		SessionFactory sessionFactory = null;
+		Session session = null;
+		Transaction tx = null;
+		try {
+			//得到sessionFactory
+			sessionFactory = HibernateUtils.getSessionFactory();
+			//得到session
+			session = sessionFactory.openSession();
+			//开启事务
+			tx = session.beginTransaction();
+
+			//1 根据id查询lucy联系人，根据id查询百度的客户
+			Customer baidu = session.get(Customer.class, 1);
+			LinkMan lucy = session.get(LinkMan.class, 2);
+			//2 设置持久态对象值
+			//把联系人放到客户里面
+			baidu.getSetLinkMan().add(lucy);
+			//把客户放到联系人里面
+			lucy.setCustomer(baidu);
+
+			//提交事务
+			tx.commit();
+
+		}catch(Exception e) {
+			tx.rollback();
+		}finally {
+			session.close();
+			//sessionFactory不需要关闭
+			sessionFactory.close();
+		}
+	}
 
 	//演示一对多级联删除
 	@Test
