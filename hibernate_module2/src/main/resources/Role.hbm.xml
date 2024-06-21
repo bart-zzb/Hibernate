@@ -10,13 +10,13 @@
         </id>
         <property name="name" column="name"></property>
 
-        <set name="permissions" table="t_role_permission">
+        <set name="permissions" table="t_role_permission" cascade="save-update">
             <!-- 一对多建表，有外键
                 hibernate机制：双向维护外键，在一和多那一方都配置外键
                 column属性值：外键名称
              -->
-            <key column="permission_id"></key>
-            <many-to-many class="org.example.entity.Role" column="role_id"/>
+            <key column="role_id"></key>
+            <many-to-many class="org.example.entity.Permission" column="permission_id"/>
         </set>
     </class>
 </hibernate-mapping>
