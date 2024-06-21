@@ -12,7 +12,10 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Set;
 
-public class HibernateSelectTest {
+/*
+    使用HQL查询
+ */
+public class HibernateHQLSelectTest {
 
     @Test
     public void testSelect1() {
