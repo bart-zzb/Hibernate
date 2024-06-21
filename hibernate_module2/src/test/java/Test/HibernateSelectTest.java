@@ -238,4 +238,36 @@ public class HibernateSelectTest {
             sessionFactory.close();
         }
     }
+
+    //HQL聚合函数查询
+    @Test
+    public void testSelect8() {
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction tx = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+
+            //1 创建query对象
+            //操作实体类可以帮实体类起别名
+            //可以使用count(*),max(实体类属性),avg(实体类属性)...
+            Query query = session.createQuery("select count(*) from Customer");
+
+            Object object = query.uniqueResult();
+            //默认是long类型
+            long count = (Long) object;
+
+            System.out.println("表中一共有"+count+"条数据");
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
 }
