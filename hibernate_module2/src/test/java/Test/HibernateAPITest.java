@@ -12,11 +12,11 @@ import java.util.List;
 public class HibernateAPITest {
     //1.使用query对象
     @Test
-    public void testQuery(){
+    public void testQuery() {
         SessionFactory sessionFactory = null;
         Session session = null;
         Transaction tx = null;
-        try{
+        try {
             sessionFactory = HibernateUtils.getSessionFactory();
             session = HibernateUtils.getSession();
             tx = session.beginTransaction();
@@ -31,21 +31,21 @@ public class HibernateAPITest {
             }
 
             tx.commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-//            session.close();
+        } finally {
+            session.close();
             sessionFactory.close();
         }
     }
 
     //2.使用Criteria对象
     @Test
-    public void testCriteria(){
+    public void testCriteria() {
         SessionFactory sessionFactory = null;
         Session session = null;
         Transaction tx = null;
-        try{
+        try {
             sessionFactory = HibernateUtils.getSessionFactory();
             session = HibernateUtils.getSession();
             tx = session.beginTransaction();
@@ -58,21 +58,21 @@ public class HibernateAPITest {
             }
 
             tx.commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-//            session.close();
+        } finally {
+            session.close();
             sessionFactory.close();
         }
     }
 
     //3.使用SQLQuery对象
     @Test
-    public void testSQLQuery(){
+    public void testSQLQuery() {
         SessionFactory sessionFactory = null;
         Session session = null;
         Transaction tx = null;
-        try{
+        try {
             sessionFactory = HibernateUtils.getSessionFactory();
             session = HibernateUtils.getSession();
             tx = session.beginTransaction();
@@ -94,10 +94,10 @@ public class HibernateAPITest {
             }
 
             tx.commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-//            session.close();
+        } finally {
+            session.close();
             sessionFactory.close();
         }
     }
