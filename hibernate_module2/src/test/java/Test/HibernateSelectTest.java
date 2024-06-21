@@ -170,4 +170,72 @@ public class HibernateSelectTest {
             sessionFactory.close();
         }
     }
+
+    //HQL分页查询
+    @Test
+    public void testSelect6() {
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction tx = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+
+            //1 创建query对象
+            //操作实体类可以帮实体类起别名
+            //hql操作中，不能使用limit，因为它是mysql方言，oracle不用limit
+            Query query = session.createQuery("from Customer");
+
+            //2.1 设置分页数据, 设置开始的值 -> 相当于limit 0,3
+            query.setFirstResult(0);
+            //2.2 查询多少条数据
+            query.setMaxResults(3);
+
+            List<Customer> list = query.list();
+
+            for (Customer customer : list) {
+                System.out.println(customer.getCid()+"::"+customer.getCustName());
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
+
+    //HQL投影查询（即查询某些字段值）
+    @Test
+    public void testSelect7() {
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction tx = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+
+            //1 创建query对象
+            //操作实体类可以帮实体类起别名
+            Query query = session.createQuery("select custName from Customer");
+
+            List<Object> list = query.list();
+
+            for (Object object : list) {
+                System.out.println(object);;
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
 }
