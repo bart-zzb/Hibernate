@@ -141,4 +141,33 @@ public class HibernateSelectTest {
         }
     }
 
+    //HQL排序查询
+    @Test
+    public void testSelect5() {
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction tx = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+
+            //1 创建query对象
+            //操作实体类可以帮实体类起别名
+            Query query = session.createQuery("from Customer order by cid desc");
+            List<Customer> list = query.list();
+
+            for (Customer customer : list) {
+                System.out.println(customer.getCid()+"::"+customer.getCustName());
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
 }
