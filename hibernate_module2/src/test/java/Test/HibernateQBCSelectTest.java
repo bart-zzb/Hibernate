@@ -7,6 +7,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 
@@ -42,7 +44,7 @@ public class HibernateQBCSelectTest {
         }
     }
 
-    //QBC条件查询
+    //QBC条件查询和模糊查询
     @Test
     public void testSelect2() {
         SessionFactory sessionFactory = null;
@@ -62,6 +64,73 @@ public class HibernateQBCSelectTest {
 //            criteria.add(Restrictions.eq("custName", "google"));
 
             criteria.add(Restrictions.like("custName","go%"));
+
+            //3 调用方法得到结果
+            List<Customer> list = criteria.list();
+            for (Customer customer : list) {
+                System.out.println(customer.getCid()+"::"+customer.getCustName());
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
+
+    //QBC排序查询
+    @Test
+    public void testSelect3() {
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction tx = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+
+            //1 创建对象
+            Criteria criteria = session.createCriteria(Customer.class);
+
+            //2 首先使用addOrder方法, 表示设置条件值
+            criteria.addOrder(Order.desc("cid"));
+
+            //3 调用方法得到结果
+            List<Customer> list = criteria.list();
+            for (Customer customer : list) {
+                System.out.println(customer.getCid()+"::"+customer.getCustName());
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
+
+    //QBC分页查询
+    @Test
+    public void testSelect4() {
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction tx = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+
+            //1 创建对象
+            Criteria criteria = session.createCriteria(Customer.class);
+
+            //2 首先使用setFirstResult, setMaxResults方法, 表示设置条件值
+            criteria.setFirstResult(0);
+            criteria.setMaxResults(1);
 
             //3 调用方法得到结果
             List<Customer> list = criteria.list();
