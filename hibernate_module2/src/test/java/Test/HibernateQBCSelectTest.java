@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 
@@ -137,6 +138,38 @@ public class HibernateQBCSelectTest {
             for (Customer customer : list) {
                 System.out.println(customer.getCid()+"::"+customer.getCustName());
             }
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
+
+    //QBC统计查询
+    @Test
+    public void testSelect5() {
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction tx = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+
+            //1 创建对象
+            Criteria criteria = session.createCriteria(Customer.class);
+
+            //2 设置条件
+            criteria.setProjection(Projections.rowCount());
+
+            //3 调用方法得到结果
+            Object object = criteria.uniqueResult();
+            Long count = (Long) object;
+            System.out.println("Customer条数为"+count);
 
             tx.commit();
         } catch (Exception e) {
