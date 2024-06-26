@@ -10,7 +10,7 @@ import org.junit.Test;
 
 
 
-public class HibernateOnetoMany {
+public class HibernateOnetoManyTest {
 	//演示一对多修改
 	@Test
 	public void testUpdate() {

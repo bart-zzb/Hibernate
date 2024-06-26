@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.Test;
 
-public class HibernateManyToMany {
+public class HibernateManyToManyTest {
     //演示多对多维护第三张表
     @Test
     public void testTable1() {
