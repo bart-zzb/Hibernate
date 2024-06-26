@@ -99,7 +99,7 @@ public class HibernateHQLMultiTableSelectTest {
         }
     }
 
-    //HQL迫切左外连接查询, 返回的是对象集合
+    //HQL迫切左外连接查询, 返回的是对象集合, 注意没有迫切右外连接
     @Test
     public void testSelect4() {
         SessionFactory sessionFactory = null;
