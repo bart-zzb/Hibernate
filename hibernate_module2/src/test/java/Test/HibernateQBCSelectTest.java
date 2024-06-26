@@ -7,10 +7,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.junit.Test;
 
 import java.util.List;
@@ -170,6 +167,40 @@ public class HibernateQBCSelectTest {
             Object object = criteria.uniqueResult();
             Long count = (Long) object;
             System.out.println("Customer条数为"+count);
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        } finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
+
+    //QBC离线查询, 解耦, dao层
+    @Test
+    public void testSelect6() {
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction tx = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+
+            //创建对象
+            //Criteria criteria = session.createCriteria(Customer.class);
+            //创建离线对象
+            DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Customer.class);
+
+            //最终执行时候才需要到session
+            Criteria criteria = detachedCriteria.getExecutableCriteria(session);
+
+            List<Customer> list = criteria.list();
+            for (Customer customer : list) {
+                System.out.println(customer.getCid()+"::"+customer.getCustName());
+            }
 
             tx.commit();
         } catch (Exception e) {
