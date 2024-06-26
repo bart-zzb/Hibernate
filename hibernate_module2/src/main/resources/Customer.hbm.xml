@@ -30,6 +30,7 @@
 		<!-- 配置简化写法(save-upate：新增，delete：删除)	-->
 		<!-- <set name="setLinkMan" cascade="save-update,delete">-->
 		<!-- set标签还有fetch="select" 默认值, lazy="true", lazy="false", lazy="extra"		-->
+		<!-- set标签批量抓取 batch-size="10" 值最大,性能越高-->
 		<set name="setLinkMan" inverse="true">
 			<!-- 一对多建表，有外键
 				hibernate机制：双向维护外键，在一和多那一方都配置外键	
